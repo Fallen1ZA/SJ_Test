@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Rotating Image Carousel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .carousel {
+            width: 80%;
+            max-width: 1200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-images {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-images img {
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .carousel-buttons {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .carousel-button {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .carousel-button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel">
+        <div class="carousel-images">
+            <img src="SloJo_Home_Banner2.jpg" alt="Slide 1">
+            <img src="SloJo_Home_Banner3.jpg" alt="Slide 2">
+            <img src="SloJo_Home_Banner4.jpg" alt="Slide 3">
+        </div>
+        <div class="carousel-buttons">
+            <button class="carousel-button" id="prev">❮</button>
+            <button class="carousel-button" id="next">❯</button>
+        </div>
+    </div>
+
+    <script>
+        const images = document.querySelector('.carousel-images');
+        const totalSlides = images.children.length;
+        let currentIndex = 0;
+        const intervalTime = 3000; // Auto-rotate interval in milliseconds
+
+        // Function to update the carousel position
+        const updateCarousel = () => {
+            images.style.transform = `translateX(-${currentIndex * 100}%)`;
+        };
+
+        // Go to the next slide
+        const nextSlide = () => {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateCarousel();
+        };
+
+        // Go to the previous slide
+        const prevSlide = () => {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        };
+
+        // Add click event listeners for navigation buttons
+        document.getElementById('next').addEventListener('click', () => {
+            clearInterval(autoRotate); // Reset auto-rotate timer
+            nextSlide();
+        });
+
+        document.getElementById('prev').addEventListener('click', () => {
+            clearInterval(autoRotate); // Reset auto-rotate timer
+            prevSlide();
+        });
+
+        // Auto-rotate functionality
+        const autoRotate = setInterval(nextSlide, intervalTime);
+    </script>
+</body>
+</html>
