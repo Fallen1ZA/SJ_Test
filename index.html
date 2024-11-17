@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto-Rotating Image Carousel</title>
+    <title>Full-Width Image Carousel</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,13 +12,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             background-color: #f4f4f4;
+            height: 100vh;
         }
 
         .carousel {
-            width: 80%;
-            max-width: 1200px;
+            width: 100%; /* Make the carousel span the full width of the screen */
+            height: 723px; /* Keep the height fixed */
             position: relative;
             overflow: hidden;
         }
@@ -30,6 +30,8 @@
 
         .carousel-images img {
             width: 100%;
+            height: 100%; /* Ensure the images fill the carousel */
+            object-fit: cover; /* Maintain aspect ratio, filling the space */
             flex-shrink: 0;
         }
 
