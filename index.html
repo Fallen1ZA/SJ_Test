@@ -1,123 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto-Rotating Image Carousel</title>
+<html>
+  <head>
     <style>
-        /* Ensure no default margins/paddings and responsive scaling */
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #f4f4f4; /* Matches carousel background */
-            overflow: hidden;
-        }
-
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Carousel Container */
-        .carousel {
-            width: 100%; /* Full width */
-            max-width: 1920px; /* Match original banner width */
-            height: 723px; /* Match original banner height */
-            position: relative;
-            overflow: hidden;
-            background-color: #f5f0f0; /* Prevent gray areas */
-        }
-
-        /* Carousel Images */
-        .carousel-images {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        .carousel-images img {
-            width: 100%;
-            height: 100%; /* Ensure images fill the container */
-            object-fit: cover; /* Maintain aspect ratio, fill container */
-            flex-shrink: 0;
-        }
-
-        /* Navigation Buttons */
-        .carousel-buttons {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-        }
-
-        .carousel-button {
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        .carousel-button:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+      .header {
+        background-color: #d32f2f; /* Red color */
+        color: white;
+        padding: 15px;
+        text-align: center;
+        border-radius: 5px;
+        position: relative;
+      }
+      .header img {
+        position: absolute;
+        left: 20px;
+        top: 10px;
+        height: 50px; /* Adjust size as needed */
+      }
+      .content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      table th, table td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ddd;
+      }
+      table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+      .footer {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 12px;
+        color: #777;
+      }
     </style>
-</head>
-<body>
-    <div class="carousel">
-        <div class="carousel-images">
-            <!-- Replace these with the paths to your actual images -->
-            <img src="SloJo_Home_Banner2.jpg" alt="Slide 1">
-            <img src="SloJo_Home_Banner3.jpg" alt="Slide 2">
-            <img src="SloJo_Home_Banner4.jpg" alt="Slide 3">
-        </div>
-        <div class="carousel-buttons">
-            <button class="carousel-button" id="prev">❮</button>
-            <button class="carousel-button" id="next">❯</button>
-        </div>
+  </head>
+  <body>
+    <div class="header">
+      <img src="https://imgur.com/a/hWdYuvk" />
+      <h1>Leave Request Details</h1>
     </div>
-
-    <script>
-        const images = document.querySelector('.carousel-images');
-        const totalSlides = images.children.length;
-        let currentIndex = 0;
-        const intervalTime = 3000; // Auto-rotate interval in milliseconds
-
-        // Function to update the carousel position
-        const updateCarousel = () => {
-            images.style.transform = `translateX(-${currentIndex * 100}%)`;
-        };
-
-        // Go to the next slide
-        const nextSlide = () => {
-            currentIndex = (currentIndex + 1) % totalSlides;
-            updateCarousel();
-        };
-
-        // Go to the previous slide
-        const prevSlide = () => {
-            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-            updateCarousel();
-        };
-
-        // Add click event listeners for navigation buttons
-        document.getElementById('next').addEventListener('click', () => {
-            clearInterval(autoRotate); // Reset auto-rotate timer
-            nextSlide();
-        });
-
-        document.getElementById('prev').addEventListener('click', () => {
-            clearInterval(autoRotate); // Reset auto-rotate timer
-            prevSlide();
-        });
-
-        // Auto-rotate functionality
-        const autoRotate = setInterval(nextSlide, intervalTime);
-    </script>
-</body>
+    <div class="content">
+      <table>
+        <tr>
+          <th>Field</th>
+          <th>Details</th>
+        </tr>
+        <tr>
+          <td>Employee Name</td>
+          <td>@{outputs('Get_item')?['body/FullName']}</td>
+        </tr>
+        <tr>
+          <td>Leave Type</td>
+          <td>@{outputs('Get_item')?['body/TypeofLeave/Value']}</td>
+        </tr>
+        <tr>
+          <td>Start Date</td>
+          <td>@{triggerOutputs()?['body/DateStarted']}</td>
+        </tr>
+        <tr>
+          <td>End Date</td>
+          <td>@{triggerOutputs()?['body/DateEnded']}</td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td>@{outputs('Start_and_wait_for_an_approval')?['body/outcome']}</td>
+        </tr>
+        <tr>
+          <td>Approver</td>
+          <td>@{outputs('Get_item')?['body/Approver']}</td>
+        </tr>
+        <tr>
+          <td>Comments</td>
+          <td>@{outputs('Get_item')?['body/Notes']}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="footer">
+      <p>Generated on: @{utcNow()}</p>
+    </div>
+  </body>
 </html>
+
+
